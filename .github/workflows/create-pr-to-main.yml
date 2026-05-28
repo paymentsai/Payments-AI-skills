@@ -1,0 +1,45 @@
+name: Create PR to main
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: Source branch
+        required: true
+        default: main
+      title:
+        description: PR title
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate PR title
+        id: title
+        run: |
+          TITLE="${{ github.event.inputs.title }}"
+          if [ -z "$TITLE" ]; then
+            TITLE="chore: promote ${{ github.event.inputs.source_branch }} to main"
+          fi
+          echo "value=$TITLE" >> $GITHUB_OUTPUT
+
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base main \
+            --head "${{ github.event.inputs.source_branch }}" \
+            --title "${{ steps.title.outputs.value }}" \
+            --body "Automated PR: promote \`${{ github.event.inputs.source_branch }}\` → \`main\`." \
+            || echo "PR may already exist"
