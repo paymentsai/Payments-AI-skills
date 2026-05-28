@@ -1,0 +1,55 @@
+name: Render skills for environment
+
+on:
+  push:
+    branches: [local, dev, stage, main]
+    paths:
+      - 'skills/**/*.template'
+      - '.github/workflows/render-skill.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set environment URLs
+        run: |
+          case "${{ github.ref_name }}" in
+            local)
+              echo "MCP_URL=http://localhost:3333" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=http://localhost:3333/settings/developer-tools" >> $GITHUB_ENV
+              ;;
+            dev)
+              echo "MCP_URL=https://dev.managed.payments.ai/mcp" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=https://dev.managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              ;;
+            stage)
+              echo "MCP_URL=https://stage.managed.payments.ai/mcp" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=https://stage.managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              ;;
+            main)
+              echo "MCP_URL=https://managed.payments.ai/mcp" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=https://managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Render SKILL.md files from templates
+        run: |
+          find skills -name '*.template' | while read template; do
+            output="${template%.template}"
+            envsubst < "$template" > "$output"
+            echo "Rendered: $output"
+          done
+
+      - name: Commit rendered files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add skills/**/*.md
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore: render skills for ${{ github.ref_name }} environment [skip ci]"
+          git push

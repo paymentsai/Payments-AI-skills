@@ -1,0 +1,6 @@
+{
+  "name": "payments-ai-skills",
+  "skills": [
+    "./skills/payments-quickstart"
+  ]
+}
