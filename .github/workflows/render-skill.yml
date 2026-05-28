@@ -1,0 +1,114 @@
+name: Render skills for environment
+
+on:
+  push:
+    branches: [local, dev, stage, main]
+    paths:
+      - 'skills/**/*.template'
+      - '.github/workflows/render-skill.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment to render skills for'
+        required: true
+        type: choice
+        options:
+          - local
+          - dev
+          - stage
+          - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve target environment
+        run: echo "TARGET_ENV=${{ github.event.inputs.environment || github.ref_name }}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set environment URLs
+        run: |
+          case "$TARGET_ENV" in
+            local)
+              echo "MCP_URL=http://localhost:3333" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=http://localhost:3333/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=http://localhost:3000" >> $GITHUB_ENV
+              ;;
+            dev)
+              echo "MCP_URL=https://dev.managed.payments.ai/api/mcp" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=https://dev.managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=https://dev.managed.payments.ai" >> $GITHUB_ENV
+              ;;
+            stage)
+              echo "MCP_URL=https://stage.managed.payments.ai/api/mcp" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=https://stage.managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=https://stage.managed.payments.ai" >> $GITHUB_ENV
+              ;;
+            main)
+              echo "MCP_URL=https://managed.payments.ai/api/mcp" >> $GITHUB_ENV
+              echo "DASHBOARD_URL=https://managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=https://managed.payments.ai" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Render SKILL.md files from templates
+        run: |
+          find skills -name '*.template' | while read template; do
+            output="${template%.template}"
+            envsubst < "$template" > "$output"
+            echo "Rendered: $output"
+          done
+
+      - name: Commit rendered files (non-main)
+        if: env.TARGET_ENV != 'main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Save rendered .md files before switching branches
+          find skills -name '*.md' -type f | while read f; do
+            install -Dm644 "$f" "/tmp/rendered/$f"
+          done
+
+          RENDERED_COUNT=$(find /tmp/rendered -name '*.md' -type f 2>/dev/null | wc -l)
+          if [ "$RENDERED_COUNT" -eq 0 ]; then
+            echo "No rendered files found"
+            exit 0
+          fi
+
+          # Remove rendered files so checkout isn't blocked by untracked files
+          find skills -name '*.md' -type f -delete
+
+          # Switch to target branch, or create orphan if it doesn't exist yet
+          if git show-ref --quiet refs/remotes/origin/$TARGET_ENV; then
+            git checkout $TARGET_ENV
+          else
+            git checkout --orphan $TARGET_ENV
+            git rm -rf . --quiet 2>/dev/null || true
+          fi
+
+          # Apply rendered files
+          cp -r /tmp/rendered/skills .
+
+          git add skills/
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore: render skills for $TARGET_ENV environment [skip ci]"
+          git push origin $TARGET_ENV
+
+      - name: Create PR for rendered files (main)
+        if: env.TARGET_ENV == 'main'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: render skills for main environment [skip ci]"
+          branch: render/main-${{ github.sha }}
+          title: "chore: render skills for main environment"
+          body: "Auto-generated PR to update rendered SKILL.md files for main environment."
+          delete-branch: true
