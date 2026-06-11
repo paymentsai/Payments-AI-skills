@@ -31,7 +31,7 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.environment || github.ref_name }}
+          fetch-depth: 0
 
       - name: Set environment URLs
         run: |
@@ -67,10 +67,33 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add skills/**/*.md
+
+          # Save rendered .md files before switching branches
+          find skills -name '*.md' -type f | while read f; do
+            install -Dm644 "$f" "/tmp/rendered/$f"
+          done
+
+          RENDERED_COUNT=$(find /tmp/rendered -name '*.md' -type f 2>/dev/null | wc -l)
+          if [ "$RENDERED_COUNT" -eq 0 ]; then
+            echo "No rendered files found"
+            exit 0
+          fi
+
+          # Switch to target branch, or create orphan if it doesn't exist yet
+          if git show-ref --quiet refs/remotes/origin/$TARGET_ENV; then
+            git checkout $TARGET_ENV
+          else
+            git checkout --orphan $TARGET_ENV
+            git rm -rf . --quiet 2>/dev/null || true
+          fi
+
+          # Apply rendered files
+          cp -r /tmp/rendered/skills .
+
+          git add skills/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: render skills for $TARGET_ENV environment [skip ci]"
-          git push
+          git push origin $TARGET_ENV
 
       - name: Create PR for rendered files (main)
         if: env.TARGET_ENV == 'main'
