@@ -83,24 +83,25 @@ Translate their description into a `create_product` call. Infer the plan fields 
 Present the result:
 
 ```
-Product created.
+Product and plan created.
 
 Product ID:  {id}
+Plan ID:     {planIds[0]}
 ```
+
+If the product has multiple plans, list all plan IDs with their index (Plan 1, Plan 2, …).
 
 ## Step 4 — Checkout link
 
 Say:
 
-> Your product is ready. To get a checkout link:
+> Your product is ready. Here is your checkout link:
 >
-> 1. Open the Payments AI dashboard at https://stage.managed.payments.ai/settings/developer-tools
-> 2. Go to **Products** in the left sidebar
-> 3. Click your product to open it
-> 4. Copy the **Plan ID** from the plan you want to sell
-> 5. Your checkout URL is: `/payment/{planId}`
+> `/payment/{planIds[0]}`
 >
 > Paste this link anywhere — your site, a landing page, an email, or a Notion page. Anyone who clicks it goes straight to checkout. Payments AI handles the payment, tax, and subscription renewal automatically.
+
+If the product has multiple plans, output one checkout URL per plan ID.
 
 ## Done
 
