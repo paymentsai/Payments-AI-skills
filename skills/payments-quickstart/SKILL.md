@@ -23,7 +23,7 @@ Add this to your MCP client config (`claude_desktop_config.json`, Cursor setting
 {
   "mcpServers": {
     "payments-ai": {
-      "url": "https://dev.managed.payments.ai/mcp",
+      "url": "https://dev.managed.payments.ai/api/mcp",
       "headers": {
         "Authorization": "Bearer YOUR_TOKEN"
       }
