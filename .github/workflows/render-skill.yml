@@ -39,18 +39,22 @@ jobs:
             local)
               echo "MCP_URL=http://localhost:3333" >> $GITHUB_ENV
               echo "DASHBOARD_URL=http://localhost:3333/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=http://localhost:3000" >> $GITHUB_ENV
               ;;
             dev)
               echo "MCP_URL=https://dev.managed.payments.ai/api/mcp" >> $GITHUB_ENV
               echo "DASHBOARD_URL=https://dev.managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=https://dev.managed.payments.ai" >> $GITHUB_ENV
               ;;
             stage)
               echo "MCP_URL=https://stage.managed.payments.ai/api/mcp" >> $GITHUB_ENV
               echo "DASHBOARD_URL=https://stage.managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=https://stage.managed.payments.ai" >> $GITHUB_ENV
               ;;
             main)
               echo "MCP_URL=https://managed.payments.ai/api/mcp" >> $GITHUB_ENV
               echo "DASHBOARD_URL=https://managed.payments.ai/settings/developer-tools" >> $GITHUB_ENV
+              echo "CHECKOUT_BASE_URL=https://managed.payments.ai" >> $GITHUB_ENV
               ;;
           esac
 
