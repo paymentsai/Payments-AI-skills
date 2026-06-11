@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   render:
@@ -45,7 +46,8 @@ jobs:
             echo "Rendered: $output"
           done
 
-      - name: Commit rendered files
+      - name: Commit rendered files (non-main)
+        if: github.ref_name != 'main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -53,3 +55,14 @@ jobs:
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: render skills for ${{ github.ref_name }} environment [skip ci]"
           git push
+
+      - name: Create PR for rendered files (main)
+        if: github.ref_name == 'main'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: render skills for main environment [skip ci]"
+          branch: render/main-${{ github.sha }}
+          title: "chore: render skills for main environment"
+          body: "Auto-generated PR to update rendered SKILL.md files for main environment."
+          delete-branch: true
