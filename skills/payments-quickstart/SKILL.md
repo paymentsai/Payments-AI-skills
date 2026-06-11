@@ -97,7 +97,7 @@ Say:
 
 > Your product is ready. Here is your checkout link:
 >
-> `/payment/{planIds[0]}`
+> `https://stage.managed.payments.ai/payment/{planIds[0]}`
 >
 > Paste this link anywhere — your site, a landing page, an email, or a Notion page. Anyone who clicks it goes straight to checkout. Payments AI handles the payment, tax, and subscription renewal automatically.
 
