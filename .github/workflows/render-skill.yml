@@ -79,6 +79,9 @@ jobs:
             exit 0
           fi
 
+          # Remove rendered files so checkout isn't blocked by untracked files
+          find skills -name '*.md' -type f -delete
+
           # Switch to target branch, or create orphan if it doesn't exist yet
           if git show-ref --quiet refs/remotes/origin/$TARGET_ENV; then
             git checkout $TARGET_ENV
