@@ -6,6 +6,17 @@ on:
     paths:
       - 'skills/**/*.template'
       - '.github/workflows/render-skill.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment to render skills for'
+        required: true
+        type: choice
+        options:
+          - local
+          - dev
+          - stage
+          - main
 
 permissions:
   contents: write
@@ -17,9 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve target environment
+        run: echo "TARGET_ENV=${{ github.event.inputs.environment || github.ref_name }}" >> $GITHUB_ENV
+
       - name: Set environment URLs
         run: |
-          case "${{ github.ref_name }}" in
+          case "$TARGET_ENV" in
             local)
               echo "MCP_URL=http://localhost:3333" >> $GITHUB_ENV
               echo "DASHBOARD_URL=http://localhost:3333/settings/developer-tools" >> $GITHUB_ENV
@@ -47,17 +61,17 @@ jobs:
           done
 
       - name: Commit rendered files (non-main)
-        if: github.ref_name != 'main'
+        if: env.TARGET_ENV != 'main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add skills/**/*.md
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "chore: render skills for ${{ github.ref_name }} environment [skip ci]"
+          git commit -m "chore: render skills for $TARGET_ENV environment [skip ci]"
           git push
 
       - name: Create PR for rendered files (main)
-        if: github.ref_name == 'main'
+        if: env.TARGET_ENV == 'main'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
