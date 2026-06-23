@@ -23,6 +23,16 @@ Guided wizard that takes a new merchant from zero to their first checkout link i
 
 Requires the [Payments AI MCP server](https://paidev.dev) to be configured in your MCP client.
 
+### `checkout-customization`
+
+Guided flow to brand a merchant's hosted checkout — theme mode, colors, font family, and input style.
+
+**Flow:** detects MCP server config → reads current branding (`get_checkout_customization`) → applies the requested changes via a partial merge (`update_checkout_customization`, omitted fields unchanged).
+
+**Trigger:** `/checkout-customization` or ask *"customize my checkout"* / *"change my checkout colors"*.
+
+Requires the [Payments AI MCP server](https://paidev.dev) to be configured in your MCP client.
+
 ## License
 
 You are free to copy, modify, and distribute these skills under the terms of the

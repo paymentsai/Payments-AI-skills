@@ -1,6 +1,7 @@
 {
   "name": "payments-ai-skills",
   "skills": [
-    "./skills/payments-quickstart"
+    "./skills/payments-quickstart",
+    "./skills/checkout-customization"
   ]
 }

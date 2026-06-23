@@ -1,0 +1,113 @@
+---
+name: checkout-customization
+description: Customize a merchant's Payments AI checkout branding (theme, colors, fonts, input style) over MCP. Use when a developer wants to style their checkout, change checkout colors or theme, set the checkout font, or brand their payment page.
+---
+
+# Payments AI Checkout Customization
+
+Help the developer brand their hosted checkout — the customer-facing payment page at `${CHECKOUT_BASE_URL}/payment/{planId}`. Work one step at a time and wait for input where asked.
+
+## Step 0 — Verify MCP server is configured
+
+Call the `payments_ai_health` tool.
+
+If the call fails or the tool is not found, output the following and stop:
+
+---
+
+**Payments AI MCP server not detected.**
+
+Add Payments AI to your MCP client config, then restart your client and run `/checkout-customization` again.
+
+**Option A — OAuth (recommended).**
+
+```json
+{
+  "mcpServers": {
+    "payments-ai": {
+      "url": "${MCP_URL}"
+    }
+  }
+}
+```
+
+**Option B — Bearer token.** Get your token at ${DASHBOARD_URL}.
+
+```json
+{
+  "mcpServers": {
+    "payments-ai": {
+      "url": "${MCP_URL}",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN"
+      }
+    }
+  }
+}
+```
+
+---
+
+If the tool responds successfully, continue to Step 1.
+
+> **Bearer-token users:** `payments_ai_health` succeeding does not prove your token can read or write branding. The customization tools require the `checkout:read` and `checkout:write` scopes. If you hit an "Insufficient scope" error in a later step, create a new token with those scopes at ${DASHBOARD_URL}.
+
+## Step 1 — Identify the merchant
+
+Ask the developer for their **Merchant ID** if it has not already appeared in the conversation.
+
+> What is your Merchant ID? (It looks like a UUID — you got it when you created your merchant account.)
+
+## Step 2 — Show current branding
+
+Call `get_checkout_customization` with:
+- `merchantId`: their merchant ID
+
+Present the current values:
+
+```
+Current checkout branding:
+
+Theme mode:        {themeMode or "default"}
+Background color:  {backgroundColor or "default"}
+Button color:      {buttonColor or "default"}
+Button text color: {buttonTextColor or "default"}
+Font color:        {fontColor or "default"}
+Font family:       {fontFamily or "default"}
+Input style:       {inputStyle or "default"}
+Logo:              {logoUrl ? "set" : "none (set via dashboard)"}
+```
+
+## Step 3 — Gather the changes
+
+Ask the developer what they want to change:
+
+> What would you like to change? For example: "dark theme with a blue button", "use the Roboto font", or "make the background #0E0E10".
+
+Translate their request into customization fields. Allowed values:
+- **themeMode** — `light` or `dark`
+- **backgroundColor**, **buttonColor**, **buttonTextColor**, **fontColor** — 6-digit hex, e.g. `#0A84FF` (always include the leading `#`)
+- **fontFamily** — `Inter` or `Roboto`
+- **inputStyle** — `rounded` or `square`
+
+## Step 4 — Apply the changes
+
+Call `update_checkout_customization` with:
+- `merchantId`: their merchant ID
+- `customization`: a nested object holding **only the fields that are changing**, e.g. `{ "themeMode": "dark", "buttonColor": "#0A84FF" }`
+
+The update is a MERGE — fields you do not send keep their current value, so you never need to resend the whole branding. Do not flatten the changing fields into the top-level args; they must be nested under `customization`.
+
+Present the result returned by the tool (the full, merged customization):
+
+```
+Checkout branding updated.
+
+{list each field and its new value}
+```
+
+If the developer asks to **remove** or **reset** a field back to default, explain that clearing is done from the dashboard (${DASHBOARD_URL}) — it is not available over MCP. The same applies to the **logo**: it is set in the dashboard and shown here read-only.
+
+## Done
+
+Summarise what changed in one or two sentences, and remind the developer they can preview it on any plan's checkout link: `${CHECKOUT_BASE_URL}/payment/{planId}`.
