@@ -50,6 +50,8 @@ Add Payments AI to your MCP client config, then restart your client and run `/ch
 
 If the tool responds successfully, continue to Step 1.
 
+> **Bearer-token users:** `payments_ai_health` succeeding does not prove your token can read or write branding. The customization tools require the `checkout:read` and `checkout:write` scopes. If you hit an "Insufficient scope" error in a later step, create a new token with those scopes at ${DASHBOARD_URL}.
+
 ## Step 1 — Identify the merchant
 
 Ask the developer for their **Merchant ID** if it has not already appeared in the conversation.
@@ -58,7 +60,10 @@ Ask the developer for their **Merchant ID** if it has not already appeared in th
 
 ## Step 2 — Show current branding
 
-Call `get_checkout_customization` with the merchant ID and present the current values:
+Call `get_checkout_customization` with:
+- `merchantId`: their merchant ID
+
+Present the current values:
 
 ```
 Current checkout branding:
@@ -87,7 +92,11 @@ Translate their request into customization fields. Allowed values:
 
 ## Step 4 — Apply the changes
 
-Call `update_checkout_customization` with the merchant ID and **only the fields that are changing**. The update is a MERGE — fields you do not send keep their current value, so you never need to resend the whole branding.
+Call `update_checkout_customization` with:
+- `merchantId`: their merchant ID
+- `customization`: a nested object holding **only the fields that are changing**, e.g. `{ "themeMode": "dark", "buttonColor": "#0A84FF" }`
+
+The update is a MERGE — fields you do not send keep their current value, so you never need to resend the whole branding. Do not flatten the changing fields into the top-level args; they must be nested under `customization`.
 
 Present the result returned by the tool (the full, merged customization):
 
