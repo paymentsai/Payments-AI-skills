@@ -58,15 +58,16 @@ If the tool responds successfully, continue to Step 1.
 
 Ask the developer:
 
-> What is your business name and email address? (These will be used to create your merchant account.)
+> What is your business name, email address, and phone number in E.164 format with country code (e.g. `+14155552671`)? These will be used to create your merchant account.
 
-Wait for their answer.
+Wait for their answer. If the phone is missing a leading `+` or country code, ask them to correct it before continuing.
 
 ## Step 2 — Create merchant account
 
 Call `create_merchant_account` with:
 - `name`: the business name they provided
 - `email`: the email they provided
+- `phone`: the E.164 phone number they provided (e.g. `+14155552671`)
 
 Present the result:
 
