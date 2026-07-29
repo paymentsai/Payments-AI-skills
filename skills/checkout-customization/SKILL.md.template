@@ -110,4 +110,4 @@ If the developer asks to **remove** or **reset** a field back to default, explai
 
 ## Done
 
-Summarise what changed in one or two sentences, and remind the developer they can preview it on any plan's checkout link: `${CHECKOUT_BASE_URL}/payment/{planId}`.
+Summarise what changed in one or two sentences, and remind the developer they can preview checkout on `${CHECKOUT_BASE_URL}/payment/{planId}?isSandbox=true` while testing on sandbox (before go-live). After go-live, use the same path without the query param.
