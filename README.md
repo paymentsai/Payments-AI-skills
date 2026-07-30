@@ -17,7 +17,7 @@ repo to install.
 
 Guided wizard that takes a new merchant from zero to their first checkout link in under 5 minutes.
 
-**Flow:** detects MCP server config → provisions sandbox → creates first product via plain-English description → returns embeddable checkout link.
+**Flow:** detects MCP server config → provisions sandbox → creates first product via plain-English description → returns sandbox checkout link (`?isSandbox=true` for testing).
 
 **Trigger:** `/payments-quickstart` or ask *"help me get started with Payments AI"*.
 

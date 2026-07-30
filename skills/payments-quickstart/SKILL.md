@@ -110,15 +110,23 @@ If the product has multiple plans, list all plan IDs with their index (Plan 1, P
 
 ## Step 4 — Checkout link
 
+MCP creates products on **sandbox** first. Share a **sandbox** checkout link — append `?isSandbox=true` so checkout uses the sandbox API:
+
+`https://managed.payments.ai/payment/{planIds[0]}?isSandbox=true`
+
+Do **not** share the live URL (no query param) until after `go_live` and the plan exists on live.
+
 Say:
 
-> Your product is ready. Here is your checkout link:
+> Your product is ready. Here is your **sandbox** checkout link for testing:
 >
-> `https://managed.payments.ai/payment/{planIds[0]}`
+> `https://managed.payments.ai/payment/{planIds[0]}?isSandbox=true`
 >
 > Paste this link anywhere — your site, a landing page, an email, or a Notion page. Anyone who clicks it goes straight to checkout. Payments AI handles the payment, tax, and subscription renewal automatically.
+>
+> After you go live and the plan exists on production, use `https://managed.payments.ai/payment/{planIds[0]}` (no `?isSandbox=true`).
 
-If the product has multiple plans, output one checkout URL per plan ID.
+If the product has multiple plans, output one sandbox checkout URL per plan ID (each with `?isSandbox=true`).
 
 ## Done
 
