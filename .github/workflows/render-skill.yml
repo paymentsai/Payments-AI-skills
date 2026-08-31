@@ -5,6 +5,7 @@ on:
     branches: [local, dev, stage, main]
     paths:
       - 'skills/**/*.template'
+      - '*.template'
       - '.github/workflows/render-skill.yml'
   workflow_dispatch:
     inputs:
@@ -58,11 +59,14 @@ jobs:
               ;;
           esac
 
-      - name: Render SKILL.md files from templates
+      - name: Render templates from templates
         run: |
-          find skills -name '*.template' | while read template; do
+          # Only these variables are substituted — anything else (e.g. ${CLAUDE_PLUGIN_ROOT}
+          # in a future .mcp.json.template stdio entry) passes through untouched instead of
+          # being silently blanked by a bare `envsubst`.
+          find . -not -path './.git/*' -name '*.template' | while read template; do
             output="${template%.template}"
-            envsubst < "$template" > "$output"
+            envsubst '$MCP_URL $DASHBOARD_URL $CHECKOUT_BASE_URL' < "$template" > "$output"
             echo "Rendered: $output"
           done
 
@@ -72,19 +76,26 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Save rendered .md files before switching branches
-          find skills -name '*.md' -type f | while read f; do
-            install -Dm644 "$f" "/tmp/rendered/$f"
+          # Rendered output paths are derived from *.template sources (skills/**/*.md, .mcp.json, ...).
+          RENDERED_PATHS=$(find . -not -path './.git/*' -name '*.template' | sed 's/\.template$//')
+
+          # Save rendered files before switching branches
+          for f in $RENDERED_PATHS; do
+            if [ -f "$f" ]; then
+              install -Dm644 "$f" "/tmp/rendered/$f"
+            fi
           done
 
-          RENDERED_COUNT=$(find /tmp/rendered -name '*.md' -type f 2>/dev/null | wc -l)
+          RENDERED_COUNT=$(find /tmp/rendered -type f 2>/dev/null | wc -l)
           if [ "$RENDERED_COUNT" -eq 0 ]; then
             echo "No rendered files found"
             exit 0
           fi
 
           # Remove rendered files so checkout isn't blocked by untracked files
-          find skills -name '*.md' -type f -delete
+          for f in $RENDERED_PATHS; do
+            rm -f "$f"
+          done
 
           # Switch to target branch, or create orphan if it doesn't exist yet
           if git show-ref --quiet refs/remotes/origin/$TARGET_ENV; then
@@ -95,9 +106,13 @@ jobs:
           fi
 
           # Apply rendered files
-          cp -r /tmp/rendered/skills .
+          cp -r /tmp/rendered/. .
 
-          git add skills/
+          for f in $RENDERED_PATHS; do
+            if [ -f "$f" ]; then
+              git add "$f"
+            fi
+          done
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: render skills for $TARGET_ENV environment [skip ci]"
           git push origin $TARGET_ENV
@@ -110,5 +125,5 @@ jobs:
           commit-message: "chore: render skills for main environment [skip ci]"
           branch: render/main-${{ github.sha }}
           title: "chore: render skills for main environment"
-          body: "Auto-generated PR to update rendered SKILL.md files for main environment."
+          body: "Auto-generated PR to update rendered files (SKILL.md, .mcp.json) for main environment."
           delete-branch: true

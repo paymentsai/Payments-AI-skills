@@ -4,12 +4,23 @@ This repository contains Agent Skills for [Payments AI](https://paidev.dev/)
 
 # Installation
 
+**Claude Code:** install the plugin — registers both skills and the Payments AI MCP server in one go, no manual JSON editing:
+
+```bash
+/plugin marketplace add paymentsai/Payments-AI-skills
+/plugin install payments-ai@payments-ai
+```
+
+The first tool call opens the OAuth browser flow to connect your Payments AI account.
+
+**Other clients (Cursor, Windsurf, etc.):** install just the skills:
+
 ```bash
 npx skills@latest add paymentsai/Payments-AI-skills
 ```
 
 From the `npx install` command, you can select the specific skills from this
-repo to install.
+repo to install. You'll still need to add the [Payments AI MCP server](https://paidev.dev/mcp) to your client separately.
 
 ## Available Skills
 
