@@ -1,75 +1,31 @@
 ---
 name: payments-quickstart
-description: Guide a new merchant through Payments AI onboarding and their first checkout link in under 5 minutes. Use when a developer wants to get started with Payments AI, create a merchant account, or create their first payment.
+description: Gated Payments AI onboarding from merchant account to first sandbox checkout. Use when a developer wants to get started with Payments AI, create a merchant account, or create their first payment.
 ---
 
 # Payments AI Quickstart
 
-Walk the developer through the full setup flow, one step at a time. Do not skip ahead. Wait for confirmation or input at each step before proceeding.
+Gated wizard: complete each step and wait for the developer's input before the next.
 
-## Step 0 — Verify MCP server is configured
+## Step 0 — MCP health
 
-Call the `payments_ai_health` tool.
+Call `payments_ai_health`.
 
-If the call fails or the tool is not found, output the following and stop:
+Complete when the tool returns successfully. If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
 
----
+## Step 1 — Merchant info
 
-**Payments AI MCP server not detected.**
-
-Add Payments AI to your MCP client config (`claude_desktop_config.json`, Cursor settings, Windsurf settings, or equivalent), then restart your client and run `/payments-quickstart` again.
-
-Choose **one** of the two authentication methods below.
-
-**Option A — OAuth (recommended).** No token to manage. Your client opens a browser to sign in and authorize, then returns automatically.
-
-```json
-{
-  "mcpServers": {
-    "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp"
-    }
-  }
-}
-```
-
-On first connect, approve the authorization in your browser. The client stores the token and refreshes it for you.
-
-**Option B — Bearer token.** Paste a long-lived token directly. Get your token at https://managed.payments.ai/settings/developer-tools.
-
-```json
-{
-  "mcpServers": {
-    "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
-      }
-    }
-  }
-}
-```
-
----
-
-If the tool responds successfully, continue to Step 1.
-
-## Step 1 — Gather merchant info
-
-Ask the developer:
+Ask:
 
 > What is your business name, email address, and phone number in E.164 format with country code (e.g. `+14155552671`)? These will be used to create your merchant account.
 
-Wait for their answer. If the phone is missing a leading `+` or country code, ask them to correct it before continuing.
+Complete when you have name, email, and an E.164 phone (leading `+` and country code). If the phone is missing either, ask them to correct it.
 
 ## Step 2 — Create merchant account
 
-Call `create_merchant_account` with:
-- `name`: the business name they provided
-- `email`: the email they provided
-- `phone`: the E.164 phone number they provided (e.g. `+14155552671`)
+Call `create_merchant_account` with `name`, `email`, and `phone` from Step 1.
 
-Present the result:
+Present:
 
 ```
 Merchant account created.
@@ -77,27 +33,29 @@ Merchant account created.
 Merchant ID:         {merchantId}
 ```
 
-## Step 3 — Create first product
+Complete when that merchant ID is on screen.
 
-Ask the developer:
+## Step 3 — First product
+
+Ask:
 
 > What do you want to sell? Describe it in plain English — for example: "A $29/mo Pro plan with a 14-day trial" or "A one-time course on Python for beginners."
 
-Wait for their answer. Also ask for their **Merchant ID** if it has not appeared in the conversation yet.
+Complete when you have the description and a merchant ID (from Step 2, or asked for if it is not in the conversation).
 
-Translate their description into a `create_product` call. Infer the plan fields from their description:
+Call `create_product`, inferring:
 - `name`: product name (max 30 chars)
 - `merchantId`: their merchant ID
 - `plans`: array with at least one plan:
   - `name`: plan display name (max 30 chars)
-  - `currency`: `"usd"` (default unless stated otherwise)
+  - `currency`: `"usd"` unless they stated otherwise
   - `amount`: price in USD as a decimal (e.g. `29.00`)
-  - `type`: `"recurring"` for subscriptions, `"one-time"` for single purchases, `"free-access"` for free
-  - `billingPeriod`: `"month"`, `"year"`, `"week"`, or `"day"`
-  - `periodLength`: `1` (default)
-  - `freeTrial`: number of trial days if mentioned (optional)
+  - `type`: `"recurring"` | `"one-time"` | `"free-access"`
+  - `billingPeriod`: `"month"` | `"year"` | `"week"`
+  - `periodLength`: `1` unless they stated otherwise
+  - `freeTrial`: trial days if mentioned
 
-Present the result:
+Present:
 
 ```
 Product and plan created.
@@ -106,28 +64,22 @@ Product ID:  {id}
 Plan ID:     {planIds[0]}
 ```
 
-If the product has multiple plans, list all plan IDs with their index (Plan 1, Plan 2, …).
+If there are multiple plans, list every plan ID with its index (Plan 1, Plan 2, …). Complete when every returned product ID and plan ID has been presented.
 
-## Step 4 — Checkout link
+## Step 4 — Sandbox checkout link
 
-MCP creates products on **sandbox** first. Share a **sandbox** checkout link — append `?isSandbox=true` so checkout uses the sandbox API:
-
-`https://managed.payments.ai/payment/{planIds[0]}?isSandbox=true`
-
-Do **not** share the live URL (no query param) until after `go_live` and the plan exists on live.
-
-Say:
+MCP creates products on **sandbox**. Say:
 
 > Your product is ready. Here is your **sandbox** checkout link for testing:
 >
 > `https://managed.payments.ai/payment/{planIds[0]}?isSandbox=true`
 >
-> Paste this link anywhere — your site, a landing page, an email, or a Notion page. Anyone who clicks it goes straight to checkout. Payments AI handles the payment, tax, and subscription renewal automatically.
+> Paste this link anywhere — your site, a landing page, an email, or a Notion page.
 >
-> After you go live and the plan exists on production, use `https://managed.payments.ai/payment/{planIds[0]}` (no `?isSandbox=true`).
+> After you go live and the plan exists on production, use `https://managed.payments.ai/payment/{planIds[0]}`.
 
-If the product has multiple plans, output one sandbox checkout URL per plan ID (each with `?isSandbox=true`).
+If there are multiple plans, output one sandbox URL per plan ID. Complete when every plan has a sandbox URL (`?isSandbox=true`) on screen. Share the live URL (no query param) only after `go_live` and the plan exists on live.
 
 ## Done
 
-Summarise what was set up in two sentences and offer to help with next steps (e.g. adding more products, checking transaction history, or understanding webhooks).
+Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, webhooks, or checkout branding via `/checkout-customization`).

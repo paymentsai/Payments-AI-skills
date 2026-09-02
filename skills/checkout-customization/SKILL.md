@@ -1,69 +1,33 @@
 ---
 name: checkout-customization
-description: Customize a merchant's Payments AI checkout branding (theme, colors, fonts, input style) over MCP. Use when a developer wants to style their checkout, change checkout colors or theme, set the checkout font, or brand their payment page.
+description: Gated checkout branding — theme, colors, fonts, input style, and logo. Use when a developer wants to customize or brand checkout, change checkout colors or theme, or set the checkout logo.
 ---
 
 # Payments AI Checkout Customization
 
-Help the developer brand their hosted checkout — the customer-facing payment page at `https://managed.payments.ai/payment/{planId}`. Work one step at a time and wait for input where asked.
+Gated branding of the hosted checkout at `https://managed.payments.ai/payment/{planId}`: complete each step and wait for input before the next.
 
-## Step 0 — Verify MCP server is configured
+## Step 0 — MCP health
 
-Call the `payments_ai_health` tool.
+Call `payments_ai_health`.
 
-If the call fails or the tool is not found, output the following and stop:
+Complete when the tool returns successfully. If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
 
----
+If a later step returns "Insufficient scope", the bearer token needs `checkout:read` and `checkout:write`. Mint a new token at https://managed.payments.ai/settings/developer-tools.
 
-**Payments AI MCP server not detected.**
+## Step 1 — Merchant ID
 
-Add Payments AI to your MCP client config, then restart your client and run `/checkout-customization` again.
-
-**Option A — OAuth (recommended).**
-
-```json
-{
-  "mcpServers": {
-    "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp"
-    }
-  }
-}
-```
-
-**Option B — Bearer token.** Get your token at https://managed.payments.ai/settings/developer-tools.
-
-```json
-{
-  "mcpServers": {
-    "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
-      }
-    }
-  }
-}
-```
-
----
-
-If the tool responds successfully, continue to Step 1.
-
-> **Bearer-token users:** `payments_ai_health` succeeding does not prove your token can read or write branding. The customization tools require the `checkout:read` and `checkout:write` scopes. If you hit an "Insufficient scope" error in a later step, create a new token with those scopes at https://managed.payments.ai/settings/developer-tools.
-
-## Step 1 — Identify the merchant
-
-Ask the developer for their **Merchant ID** if it has not already appeared in the conversation.
+Ask if it is not already in the conversation:
 
 > What is your Merchant ID? (It looks like a UUID — you got it when you created your merchant account.)
 
-## Step 2 — Show current branding
+Complete when you have a merchant ID.
 
-Call `get_checkout_customization` with:
-- `merchantId`: their merchant ID
+## Step 2 — Current branding
 
-Present the current values:
+Call `get_checkout_customization` with `merchantId`.
+
+Present:
 
 ```
 Current checkout branding:
@@ -75,30 +39,35 @@ Button text color: {buttonTextColor or "default"}
 Font color:        {fontColor or "default"}
 Font family:       {fontFamily or "default"}
 Input style:       {inputStyle or "default"}
-Logo:              {logoUrl ? "set" : "none (set via dashboard)"}
+Logo:              {logoUrl ? "set" : "none"}
 ```
 
-## Step 3 — Gather the changes
+Complete when every field above has been shown.
 
-Ask the developer what they want to change:
+## Step 3 — Gather changes
 
-> What would you like to change? For example: "dark theme with a blue button", "use the Roboto font", or "make the background #0E0E10".
+Ask:
 
-Translate their request into customization fields. Allowed values:
+> What would you like to change? For example: "dark theme with a blue button", "use the Roboto font", "make the background #0E0E10", or "set my checkout logo".
+
+Translate into:
 - **themeMode** — `light` or `dark`
-- **backgroundColor**, **buttonColor**, **buttonTextColor**, **fontColor** — 6-digit hex, e.g. `#0A84FF` (always include the leading `#`)
+- **backgroundColor**, **buttonColor**, **buttonTextColor**, **fontColor** — 6-digit hex with leading `#`, e.g. `#0A84FF`
 - **fontFamily** — `Inter` or `Roboto`
 - **inputStyle** — `rounded` or `square`
+- **logo** — a local image path (png, jpeg, or webp, ≤ 5 MB)
 
-## Step 4 — Apply the changes
+Complete when the request is mapped onto those fields (and a file path, if they want a logo).
 
-Call `update_checkout_customization` with:
+## Step 4 — Apply
+
+If any theme, color, font, or input field is changing, **merge** via `update_checkout_customization`:
 - `merchantId`: their merchant ID
-- `customization`: a nested object holding **only the fields that are changing**, e.g. `{ "themeMode": "dark", "buttonColor": "#0A84FF" }`
+- `customization`: nested object of **only the fields that are changing**, e.g. `{ "themeMode": "dark", "buttonColor": "#0A84FF" }`
 
-The update is a MERGE — fields you do not send keep their current value, so you never need to resend the whole branding. Do not flatten the changing fields into the top-level args; they must be nested under `customization`.
+Omitted fields keep their current value. Nest them under `customization`; a flat top-level update is rejected.
 
-Present the result returned by the tool (the full, merged customization):
+Present the full merged customization the tool returns:
 
 ```
 Checkout branding updated.
@@ -106,8 +75,12 @@ Checkout branding updated.
 {list each field and its new value}
 ```
 
-If the developer asks to **remove** or **reset** a field back to default, explain that clearing is done from the dashboard (https://managed.payments.ai/settings/developer-tools) — it is not available over MCP. The same applies to the **logo**: it is set in the dashboard and shown here read-only.
+If they asked to **remove** or **reset** a field to default, clearing is done from the dashboard (https://managed.payments.ai/settings/developer-tools) — not over MCP.
+
+If they asked for a logo, follow [references/set-logo.md](references/set-logo.md).
+
+Complete when every requested change is on screen (merged fields and/or logo).
 
 ## Done
 
-Summarise what changed in one or two sentences, and remind the developer they can preview checkout on `https://managed.payments.ai/payment/{planId}?isSandbox=true` while testing on sandbox (before go-live). After go-live, use the same path without the query param.
+Complete when the summary names every field that changed. Preview on `https://managed.payments.ai/payment/{planId}?isSandbox=true` while still on sandbox; after go-live, the same path with no query param.

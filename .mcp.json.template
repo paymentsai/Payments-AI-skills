@@ -1,7 +1,0 @@
-{
-  "mcpServers": {
-    "payments-ai": {
-      "url": "${MCP_URL}"
-    }
-  }
-}

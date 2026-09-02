@@ -26,9 +26,9 @@ repo to install. You'll still need to add the [Payments AI MCP server](https://p
 
 ### `payments-quickstart`
 
-Guided wizard that takes a new merchant from zero to their first checkout link in under 5 minutes.
+Gated wizard from merchant account to first sandbox checkout.
 
-**Flow:** detects MCP server config → provisions sandbox → creates first product via plain-English description → returns sandbox checkout link (`?isSandbox=true` for testing).
+**Flow:** MCP health → create merchant → first product from a plain-English description → sandbox checkout link (`?isSandbox=true`).
 
 **Trigger:** `/payments-quickstart` or ask *"help me get started with Payments AI"*.
 
@@ -36,11 +36,11 @@ Requires the [Payments AI MCP server](https://paidev.dev) to be configured in yo
 
 ### `checkout-customization`
 
-Guided flow to brand a merchant's hosted checkout — theme mode, colors, font family, and input style.
+Gated branding of a merchant's hosted checkout — theme, colors, font, input style, and logo.
 
-**Flow:** detects MCP server config → reads current branding (`get_checkout_customization`) → applies the requested changes via a partial merge (`update_checkout_customization`, omitted fields unchanged).
+**Flow:** MCP health → read current branding (`get_checkout_customization`) → merge field changes (`update_checkout_customization`) and, when asked, set the logo (`set_checkout_logo`).
 
-**Trigger:** `/checkout-customization` or ask *"customize my checkout"* / *"change my checkout colors"*.
+**Trigger:** `/checkout-customization` or ask *"customize my checkout"* / *"set my checkout logo"*.
 
 Requires the [Payments AI MCP server](https://paidev.dev) to be configured in your MCP client.
 
