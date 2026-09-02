@@ -3,7 +3,7 @@
   "description": "Payments AI skills and MCP server for Claude Code.",
   "owner": {
     "name": "Payments AI",
-    "url": "https://paidev.dev"
+    "url": "https://payments.ai/"
   },
   "plugins": [
     {

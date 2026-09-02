@@ -1,6 +1,6 @@
 # Payments AI skills
 
-This repository contains Agent Skills for [Payments AI](https://paidev.dev/)
+This repository contains Agent Skills for [Payments AI](https://payments.ai/)
 
 # Installation
 
@@ -20,7 +20,7 @@ npx skills@latest add paymentsai/Payments-AI-skills
 ```
 
 From the `npx install` command, you can select the specific skills from this
-repo to install. You'll still need to add the [Payments AI MCP server](https://paidev.dev/mcp) to your client separately.
+repo to install. You'll still need to add the [Payments AI MCP server](https://payments.ai/mcp) to your client separately.
 
 ## Available Skills
 
@@ -32,7 +32,7 @@ Gated wizard from merchant account to first sandbox checkout.
 
 **Trigger:** `/payments-quickstart` or ask *"help me get started with Payments AI"*.
 
-Requires the [Payments AI MCP server](https://paidev.dev) to be configured in your MCP client.
+Requires the [Payments AI MCP server](https://payments.ai) to be configured in your MCP client.
 
 ### `checkout-customization`
 
@@ -42,7 +42,7 @@ Gated branding of a merchant's hosted checkout — theme, colors, font, input st
 
 **Trigger:** `/checkout-customization` or ask *"customize my checkout"* / *"set my checkout logo"*.
 
-Requires the [Payments AI MCP server](https://paidev.dev) to be configured in your MCP client.
+Requires the [Payments AI MCP server](https://payments.ai) to be configured in your MCP client.
 
 ## License
 

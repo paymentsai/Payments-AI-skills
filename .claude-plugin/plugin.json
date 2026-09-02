@@ -5,7 +5,7 @@
   "description": "Guided Payments AI skills (quickstart, checkout customization) plus the bundled MCP server.",
   "author": {
     "name": "Payments AI",
-    "url": "https://paidev.dev"
+    "url": "https://payments.ai/"
   },
   "license": "Apache-2.0",
   "skills": [
