@@ -1,0 +1,15 @@
+{
+  "name": "payments-ai",
+  "description": "Payments AI skills and MCP server for Claude Code.",
+  "owner": {
+    "name": "Payments AI",
+    "url": "https://payments.ai/"
+  },
+  "plugins": [
+    {
+      "name": "payments-ai",
+      "source": "./",
+      "description": "Payments AI Claude Code plugin: guided skills for merchant onboarding and checkout branding, plus the bundled Payments AI MCP server."
+    }
+  ]
+}

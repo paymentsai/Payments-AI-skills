@@ -1,5 +1,13 @@
 {
-  "name": "payments-ai-skills",
+  "name": "payments-ai",
+  "displayName": "Payments AI",
+  "version": "0.1.0",
+  "description": "Guided Payments AI skills (quickstart, checkout customization) plus the bundled MCP server.",
+  "author": {
+    "name": "Payments AI",
+    "url": "https://payments.ai/"
+  },
+  "license": "Apache-2.0",
   "skills": [
     "./skills/payments-quickstart",
     "./skills/checkout-customization"

@@ -1,0 +1,34 @@
+**Payments AI MCP server not detected.**
+
+Add Payments AI to your MCP client config (`claude_desktop_config.json`, Cursor settings, Windsurf settings, or equivalent), then restart your client and re-run this skill.
+
+Choose **one** of the two authentication methods below.
+
+**Option A — OAuth (recommended).** No token to manage. Your client opens a browser to sign in and authorize, then returns automatically.
+
+```json
+{
+  "mcpServers": {
+    "payments-ai": {
+      "url": "https://managed.payments.ai/api/mcp"
+    }
+  }
+}
+```
+
+On first connect, approve the authorization in your browser. The client stores the token and refreshes it for you.
+
+**Option B — Bearer token.** Paste a long-lived token directly. Get your token at https://managed.payments.ai/settings/developer-tools.
+
+```json
+{
+  "mcpServers": {
+    "payments-ai": {
+      "url": "https://managed.payments.ai/api/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN"
+      }
+    }
+  }
+}
+```
