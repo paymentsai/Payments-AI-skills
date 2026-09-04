@@ -1,0 +1,18 @@
+{
+  "name": "payments-ai",
+  "owner": {
+    "name": "Payments AI",
+    "email": "support@payments.ai"
+  },
+  "metadata": {
+    "description": "Payments AI plugin",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "payments-ai",
+      "source": "./plugins/cursor/payments-ai",
+      "description": "Guided Payments AI skills for merchant onboarding and checkout branding, plus the bundled Payments AI MCP server."
+    }
+  ]
+}

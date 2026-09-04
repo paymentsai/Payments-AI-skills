@@ -1,0 +1,39 @@
+{
+  "name": "payments-ai",
+  "version": "0.1.0",
+  "description": "Guided Payments AI skills for merchant onboarding and checkout branding, plus the bundled Payments AI MCP server.",
+  "author": {
+    "name": "Payments AI",
+    "email": "support@payments.ai",
+    "url": "https://payments.ai/"
+  },
+  "homepage": "https://payments.ai/",
+  "repository": "https://github.com/paymentsai/Payments-AI-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "payments",
+    "checkout",
+    "mcp",
+    "merchant-of-record"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Payments AI",
+    "shortDescription": "Merchant onboarding and checkout branding for Payments AI.",
+    "longDescription": "Guided skills that create a merchant account, first product, and sandbox checkout link, then brand hosted checkout. Bundles the Payments AI MCP server (OAuth on first connect).",
+    "developerName": "Payments AI",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Payments",
+      "Workflow"
+    ],
+    "websiteURL": "https://payments.ai/",
+    "defaultPrompt": [
+      "Help me get started with Payments AI.",
+      "Create my first sandbox checkout.",
+      "Customize my hosted checkout branding."
+    ],
+    "logo": "./assets/logo.svg"
+  }
+}

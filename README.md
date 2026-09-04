@@ -1,50 +1,105 @@
 # Payments AI skills
 
-This repository contains Agent Skills for [Payments AI](https://payments.ai/)
+[Payments AI](https://payments.ai/) agent skills and MCP server, for Claude Code, Cursor, Codex, Antigravity, Gemini CLI, Copilot, and any other client that supports [Agent Skills](https://agentskills.io/).
 
-# Installation
+Two ways to use this repository:
 
-**Claude Code:** install the plugin — registers both skills and the Payments AI MCP server in one go, no manual JSON editing:
+- **Install the skills** — copies `skills/` into your agent. Add the MCP server yourself.
+- **Add the plugin** — registers this repo as a marketplace (or installs a host package) and bundles the same skills plus the MCP server.
+
+After either path, ask:
+
+```text
+Help me get started with Payments AI.
+```
+
+The first MCP tool call opens a browser to connect your Payments AI account.
+
+## Install skills
 
 ```bash
+npx skills add paymentsai/Payments-AI-skills
+```
+
+That installs only what is in `skills/`. Point your client at the [Payments AI MCP server](https://payments.ai/mcp):
+
+```json
+{
+  "mcpServers": {
+    "payments-ai": {
+      "url": "https://managed.payments.ai/api/mcp"
+    }
+  }
+}
+```
+
+Antigravity uses `serverUrl` instead of `url`. Gemini CLI uses `httpUrl`.
+
+## Add as a plugin
+
+Add this GitHub repository as a marketplace, then install **Payments AI**.
+
+### Claude Code
+
+```text
 /plugin marketplace add paymentsai/Payments-AI-skills
 /plugin install payments-ai@payments-ai
 ```
 
-The first tool call opens the OAuth browser flow to connect your Payments AI account.
+### Cursor
 
-**Other clients (Cursor, Windsurf, etc.):** install just the skills:
-
-```bash
-npx skills@latest add paymentsai/Payments-AI-skills
+```text
+/add-plugin https://github.com/paymentsai/Payments-AI-skills
 ```
 
-From the `npx install` command, you can select the specific skills from this
-repo to install. You'll still need to add the [Payments AI MCP server](https://payments.ai/mcp) to your client separately.
+Then install **Payments AI** from Customize.
 
-## Available Skills
+If you already cloned this repo, you can load the Cursor package locally instead:
 
-### `payments-quickstart`
+```bash
+mkdir -p ~/.cursor/plugins/local
+ln -sfn "$(pwd)/plugins/cursor/payments-ai" ~/.cursor/plugins/local/payments-ai
+```
 
-Gated wizard from merchant account to first sandbox checkout.
+Reload the window and confirm the skills and the `payments-ai` MCP server in Customize.
 
-**Flow:** MCP health → create merchant → first product from a plain-English description → sandbox checkout link (`?isSandbox=true`).
+### Codex
 
-**Trigger:** `/payments-quickstart` or ask *"help me get started with Payments AI"*.
+```bash
+codex plugin marketplace add paymentsai/Payments-AI-skills \
+  --sparse .agents/plugins \
+  --sparse plugins/codex/payments-ai
+```
 
-Requires the [Payments AI MCP server](https://payments.ai) to be configured in your MCP client.
+Restart Codex and install **Payments AI**.
 
-### `checkout-customization`
+### Antigravity
 
-Gated branding of a merchant's hosted checkout — theme, colors, font, input style, and logo.
+```bash
+agy plugin install ./plugins/antigravity/payments-ai
+agy plugin list
+```
 
-**Flow:** MCP health → read current branding (`get_checkout_customization`) → merge field changes (`update_checkout_customization`) and, when asked, set the logo (`set_checkout_logo`).
+### Gemini CLI
 
-**Trigger:** `/checkout-customization` or ask *"customize my checkout"* / *"set my checkout logo"*.
+```bash
+gemini extensions install ./plugins/gemini/payments-ai
+gemini extensions list
+```
 
-Requires the [Payments AI MCP server](https://payments.ai) to be configured in your MCP client.
+Consumer Gemini CLI is moving to Antigravity. Prefer the Antigravity package when that is the host in use.
+
+### Copilot / Agent Plugins
+
+This package is the portable [Agent Plugins](https://agent-plugins.org/) layout. Install or symlink `plugins/copilot/payments-ai` into the host's local plugins directory, then reload.
+
+## Skills
+
+| Skill | What it does |
+| --- | --- |
+| `payments-quickstart` | Merchant account → first product → sandbox checkout |
+| `checkout-customization` | Hosted checkout theme, colors, font, input style, and logo |
 
 ## License
 
-You are free to copy, modify, and distribute these skills under the terms of the
-Apache 2.0 license. See the `LICENSE` file for details.
+Apache 2.0. See `LICENSE`.

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "payments-ai",
+  "description": "Guided Payments AI skills for merchant onboarding and checkout branding, plus the bundled Payments AI MCP server."
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "payments-ai",
+  "version": "0.1.0",
+  "description": "Guided Payments AI skills for merchant onboarding and checkout branding, plus the bundled Payments AI MCP server.",
+  "author": {
+    "name": "Payments AI",
+    "email": "support@payments.ai",
+    "url": "https://payments.ai/"
+  },
+  "homepage": "https://payments.ai/",
+  "repository": "https://github.com/paymentsai/Payments-AI-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "payments",
+    "checkout",
+    "mcp",
+    "merchant-of-record"
+  ]
+}

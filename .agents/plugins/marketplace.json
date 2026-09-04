@@ -1,0 +1,20 @@
+{
+  "name": "payments-ai",
+  "interface": {
+    "displayName": "Payments AI"
+  },
+  "plugins": [
+    {
+      "name": "payments-ai",
+      "category": "Developer Tools",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex/payments-ai"
+      }
+    }
+  ]
+}
