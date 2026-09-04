@@ -5,9 +5,18 @@
   "description": "Guided Payments AI skills (quickstart, checkout customization) plus the bundled MCP server.",
   "author": {
     "name": "Payments AI",
+    "email": "support@payments.ai",
     "url": "https://payments.ai/"
   },
+  "homepage": "https://payments.ai/",
+  "repository": "https://github.com/paymentsai/Payments-AI-skills",
   "license": "Apache-2.0",
+  "keywords": [
+    "payments",
+    "checkout",
+    "mcp",
+    "merchant-of-record"
+  ],
   "skills": [
     "./skills/payments-quickstart",
     "./skills/checkout-customization"
