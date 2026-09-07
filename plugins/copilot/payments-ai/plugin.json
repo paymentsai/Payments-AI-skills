@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "payments-ai",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Guided Payments AI skills for merchant onboarding and checkout branding, plus the bundled Payments AI MCP server.",
   "author": {
     "name": "Payments AI",
