@@ -1,6 +1,13 @@
 # Payments AI for Antigravity
 
-Install from a clone of this repository:
+Install from GitHub:
+
+```bash
+agy plugin install https://github.com/paymentsai/Payments-AI-skills.git
+agy plugin list
+```
+
+From a clone of this repository:
 
 ```bash
 agy plugin validate ./plugins/antigravity/payments-ai

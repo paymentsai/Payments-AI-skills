@@ -9,8 +9,8 @@ MCP server work for Antigravity, Gemini CLI, and Copilot (OAuth and transport qu
 | Claude Code | `.claude-plugin/marketplace.json` | `plugins/claude/payments-ai/` | `.mcp.json` → `url` |
 | Cursor | `.cursor-plugin/marketplace.json` | `plugins/cursor/payments-ai/` | `mcp.json` → `url` |
 | Codex | `.agents/plugins/marketplace.json` | `plugins/codex/payments-ai/` | `.mcp.json` → `url` |
-| Antigravity | local `agy plugin install` | `plugins/antigravity/payments-ai/` | `mcp_config.json` → `serverUrl` |
-| Gemini CLI | local `gemini extensions install` | `plugins/gemini/payments-ai/` | `gemini-extension.json` → `httpUrl` |
+| Antigravity | `agy plugin install https://github.com/paymentsai/Payments-AI-skills.git` | `plugins/antigravity/payments-ai/` | `mcp_config.json` → `serverUrl` |
+| Gemini CLI | gallery (`gemini-cli-extension` topic + root `gemini-extension.json`) | `plugins/gemini/payments-ai/` | `gemini-extension.json` → `httpUrl` |
 | Copilot / Agent Plugins | host local plugins dir | `plugins/copilot/payments-ai/` | `mcp.json` → `url` |
 
 ## What each package contains
