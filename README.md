@@ -76,15 +76,30 @@ Restart Codex and install **Payments AI**.
 ### Antigravity
 
 ```bash
-agy plugin install ./plugins/antigravity/payments-ai
+agy plugin install https://github.com/paymentsai/Payments-AI-skills.git
 agy plugin list
+```
+
+From a clone:
+
+```bash
+agy plugin install ./plugins/antigravity/payments-ai
 ```
 
 ### Gemini CLI
 
+The gallery crawler needs `gemini-extension.json` at the repo root (topic `gemini-cli-extension`). Install from GitHub:
+
 ```bash
-gemini extensions install ./plugins/gemini/payments-ai
+gemini extensions install https://github.com/paymentsai/Payments-AI-skills
 gemini extensions list
+```
+
+From a clone, either the root or the host package works:
+
+```bash
+gemini extensions install .
+gemini extensions install ./plugins/gemini/payments-ai
 ```
 
 Consumer Gemini CLI is moving to Antigravity. Prefer the Antigravity package when that is the host in use.

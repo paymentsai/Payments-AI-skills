@@ -111,6 +111,10 @@ def main() -> None:
     shutil.copy2(CANONICAL_MCP, ROOT / ".mcp.json")
     for name, spec in HOSTS.items():
         sync_host(name, spec, canonical)
+    gemini_dir = HOSTS["gemini"]["dir"]
+    shutil.copy2(gemini_dir / "gemini-extension.json", ROOT / "gemini-extension.json")
+    shutil.copy2(gemini_dir / "GEMINI.md", ROOT / "GEMINI.md")
+    print("synced gemini gallery copies -> gemini-extension.json, GEMINI.md")
     print("host packages synced")
 
 

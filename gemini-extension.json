@@ -1,0 +1,11 @@
+{
+  "name": "payments-ai",
+  "version": "1.0.0",
+  "description": "Guided Payments AI skills for merchant onboarding and checkout branding, plus the bundled Payments AI MCP server.",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "payments-ai": {
+      "httpUrl": "https://managed.payments.ai/api/mcp"
+    }
+  }
+}

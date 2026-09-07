@@ -162,8 +162,22 @@ def main() -> int:
         if (path / "mcp_config.json").exists() and host != "antigravity":
             error(f"{host} package must not contain mcp_config.json")
 
-    if (ROOT / "gemini-extension.json").exists():
-        error("gemini-extension.json must live under plugins/gemini/payments-ai, not the repo root")
+    root_gemini = ROOT / "gemini-extension.json"
+    root_gemini_md = ROOT / "GEMINI.md"
+    if not root_gemini.is_file():
+        error("root gemini-extension.json is required for the Gemini CLI gallery crawler")
+    elif manifests["gemini"].is_file() and root_gemini.read_bytes() != manifests["gemini"].read_bytes():
+        error("root gemini-extension.json drifted from plugins/gemini/payments-ai/gemini-extension.json")
+    if not root_gemini_md.is_file():
+        error("root GEMINI.md is required for the Gemini CLI gallery crawler")
+    elif (packages["gemini"] / "GEMINI.md").is_file() and root_gemini_md.read_bytes() != (
+        packages["gemini"] / "GEMINI.md"
+    ).read_bytes():
+        error("root GEMINI.md drifted from plugins/gemini/payments-ai/GEMINI.md")
+    if root_gemini.is_file() and expected_url:
+        root_gemini_data = read_json(root_gemini, "root gemini-extension.json")
+        if payments_url(root_gemini_data, "httpUrl") != expected_url:
+            error("root gemini-extension.json httpUrl drifted from shared/mcp.json")
 
     for host, path in manifests.items():
         data = read_json(path, f"{host} plugin manifest")
