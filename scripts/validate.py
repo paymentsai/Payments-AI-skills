@@ -176,8 +176,8 @@ def main() -> int:
             error(f"{host}: plugin name must be payments-ai")
         if not data.get("description"):
             error(f"{host}: description is required")
-        if host != "antigravity" and data.get("version") != "0.1.0":
-            error(f"{host}: version must match 0.1.0")
+        if host != "antigravity" and data.get("version") != "1.0.0":
+            error(f"{host}: version must match 1.0.0")
 
     cursor_plugin = read_json(manifests["cursor"], "cursor plugin.json")
     if cursor_plugin and cursor_plugin.get("logo") != "assets/logo.svg":
