@@ -1,9 +1,17 @@
 ---
 name: checkout-customization
-description: Gated checkout branding — theme, colors, fonts, input style, and logo. Use when a developer wants to customize or brand checkout, change checkout colors or theme, or set the checkout logo.
+description: Official Payments AI checkout branding — theme, colors, fonts, input style, and logo over MCP. Use when a developer wants to customize or brand their hosted checkout, change checkout colors or theme, or set the checkout logo.
+license: Apache-2.0
+compatibility: Requires the official Payments AI MCP server (https://payments.ai/mcp). Network access to managed.payments.ai over HTTPS.
+metadata:
+  author: paymentsai
+  homepage: https://payments.ai
+  repository: https://github.com/paymentsai/payments-ai-skills
 ---
 
 # Payments AI Checkout Customization
+
+Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/payments-ai-skills. MCP documentation: https://payments.ai/mcp.
 
 Gated branding of the hosted checkout at `https://managed.payments.ai/payment/{planId}`: complete each step and wait for input before the next.
 
