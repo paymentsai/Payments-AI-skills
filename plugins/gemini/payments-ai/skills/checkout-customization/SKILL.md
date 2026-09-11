@@ -2,18 +2,24 @@
 name: checkout-customization
 description: Official Payments AI checkout branding — theme, colors, fonts, input style, and logo over MCP. Use when a developer wants to customize or brand their hosted checkout, change checkout colors or theme, or set the checkout logo.
 license: Apache-2.0
-compatibility: Requires the official Payments AI MCP server (https://payments.ai/mcp). Network access to managed.payments.ai over HTTPS.
+compatibility: Requires the official Payments AI MCP server (https://doc.managed.payments.ai/mcp). Network access to managed.payments.ai over HTTPS.
 metadata:
   author: paymentsai
   homepage: https://payments.ai
-  repository: https://github.com/paymentsai/payments-ai-skills
+  repository: https://github.com/paymentsai/Payments-AI-skills
 ---
 
 # Payments AI Checkout Customization
 
-Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/payments-ai-skills. MCP documentation: https://payments.ai/mcp.
+Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/Payments-AI-skills. MCP documentation: https://doc.managed.payments.ai/mcp.
 
 Gated branding of the hosted checkout at `https://managed.payments.ai/payment/{planId}`: complete each step and wait for input before the next.
+
+## Security and data handling
+
+- **First-party endpoint only.** Use the Payments AI MCP server at `https://managed.payments.ai/api/mcp`. Do not substitute other URLs or proxies.
+- **OAuth preferred.** Recommend Option A in [references/mcp-setup.md](references/mcp-setup.md). The MCP client stores and refreshes tokens; never ask the developer to paste a bearer token into chat.
+- **Merchant ID only.** Collect the merchant ID at Step 1. Do not log or repeat credentials.
 
 ## Step 0 — MCP health
 
@@ -21,7 +27,7 @@ Call `payments_ai_health`.
 
 Complete when the tool returns successfully. If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
 
-If a later step returns "Insufficient scope", the bearer token needs `checkout:read` and `checkout:write`. Mint a new token at https://managed.payments.ai/settings/developer-tools.
+If a later step returns "Insufficient scope", the MCP connection needs `checkout:read` and `checkout:write` scopes. Recommend Option A (OAuth) in [references/mcp-setup.md](references/mcp-setup.md). If using Option B, tell the developer to mint a token with those scopes at https://managed.payments.ai/settings/developer-tools and configure it in their local MCP client only — never paste the token into chat.
 
 ## Step 1 — Merchant ID
 

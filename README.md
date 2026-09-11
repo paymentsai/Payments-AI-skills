@@ -21,7 +21,7 @@ The first MCP tool call opens a browser to connect your Payments AI account.
 npx skills add paymentsai/Payments-AI-skills
 ```
 
-That installs only what is in `skills/`. Point your client at the [Payments AI MCP server](https://payments.ai/mcp):
+That installs only what is in `skills/`. Point your client at the [Payments AI MCP server](https://doc.managed.payments.ai/mcp):
 
 ```json
 {
