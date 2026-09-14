@@ -1,11 +1,26 @@
 ---
 name: payments-quickstart
-description: Gated Payments AI onboarding from merchant account to first sandbox checkout. Use when a developer wants to get started with Payments AI, create a merchant account, or create their first payment.
+description: Official Payments AI onboarding — merchant account, product, and sandbox checkout via MCP. Use when a developer wants to get started with Payments AI, integrate payments, create a merchant account, or build their first checkout link.
+license: Apache-2.0
+compatibility: Requires the official Payments AI MCP server (https://doc.managed.payments.ai/mcp). Network access to managed.payments.ai over HTTPS.
+metadata:
+  author: paymentsai
+  homepage: https://payments.ai
+  repository: https://github.com/paymentsai/Payments-AI-skills
 ---
 
 # Payments AI Quickstart
 
+Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/Payments-AI-skills. MCP documentation: https://doc.managed.payments.ai/mcp.
+
 Gated wizard: complete each step and wait for the developer's input before the next.
+
+## Security and data handling
+
+- **First-party endpoint only.** Use the Payments AI MCP server at `https://managed.payments.ai/api/mcp`. Do not substitute other URLs or proxies.
+- **OAuth preferred.** Recommend Option A in [references/mcp-setup.md](references/mcp-setup.md). The MCP client stores and refreshes tokens; never ask the developer to paste a bearer token into chat.
+- **PII with consent.** Collect business name, email, and phone only at Step 1 after the developer provides them. Pass those fields only to `create_merchant_account`. Do not log or repeat credentials.
+- **Sandbox by default.** `create_product` creates sandbox resources. Share checkout links with `?isSandbox=true` until the merchant has gone live on production.
 
 ## Step 0 — MCP health
 

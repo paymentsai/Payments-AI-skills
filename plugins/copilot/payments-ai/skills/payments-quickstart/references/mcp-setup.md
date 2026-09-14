@@ -20,7 +20,7 @@ Choose **one** of the two authentication methods below.
 
 On first connect, approve the authorization in your browser. The client stores the token and refreshes it for you.
 
-**Option B — Bearer token.** Paste a long-lived token directly. Get your token at https://managed.payments.ai/settings/developer-tools.
+**Option B — Bearer token.** Configure a long-lived token in your local MCP client only (never paste it into chat). Mint tokens at https://managed.payments.ai/settings/developer-tools.
 
 ```json
 {
