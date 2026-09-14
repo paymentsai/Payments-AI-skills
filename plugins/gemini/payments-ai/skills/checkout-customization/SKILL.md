@@ -27,7 +27,7 @@ Call `payments_ai_health`.
 
 Complete when the tool returns successfully. If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
 
-If a later step returns "Insufficient scope", the MCP connection needs `checkout:read` and `checkout:write` scopes. Recommend Option A (OAuth) in [references/mcp-setup.md](references/mcp-setup.md). If using Option B, tell the developer to mint a token with those scopes at https://managed.payments.ai/settings/developer-tools and configure it in their local MCP client only — never paste the token into chat.
+If a later step returns "Insufficient scope", the MCP connection needs `checkout:read` and `checkout:write` scopes. Recommend Option A (OAuth) in [references/mcp-setup.md](references/mcp-setup.md). If using Option B, tell the developer to mint a token with those scopes at https://managed.payments.ai/developer-tools and configure it in their local MCP client only — never paste the token into chat.
 
 ## Step 1 — Merchant ID
 
@@ -89,7 +89,7 @@ Checkout branding updated.
 {list each field and its new value}
 ```
 
-If they asked to **remove** or **reset** a field to default, clearing is done from the dashboard (https://managed.payments.ai/settings/developer-tools) — not over MCP.
+If they asked to **remove** or **reset** a field to default, clearing is done from the dashboard (https://managed.payments.ai/developer-tools) — not over MCP.
 
 If they asked for a logo, follow [references/set-logo.md](references/set-logo.md).
 
