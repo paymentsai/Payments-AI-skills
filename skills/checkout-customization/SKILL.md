@@ -97,4 +97,4 @@ Complete when every requested change is on screen (merged fields and/or logo).
 
 ## Done
 
-Complete when the summary names every field that changed. Preview on `https://managed.payments.ai/payment/{planId}?isSandbox=true` while still on sandbox; after go-live, the same path with no query param.
+Complete when the summary names every field that changed. To preview, call `list_products` and open a plan's returned `checkoutUrl` — it already points at sandbox or live depending on where the merchant is, so there is no path to assemble and no query param to remember.
