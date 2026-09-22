@@ -23,9 +23,9 @@ Gated branding of the hosted checkout at `https://managed.payments.ai/payment/{p
 
 ## Step 0 — MCP health
 
-Call `payments_ai_health`.
+Call `get_my_merchant`. It takes no arguments and doubles as a liveness and authorization check.
 
-Complete when the tool returns successfully. If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
+Complete when the tool returns successfully (an empty result is normal — it just means no merchant exists yet). If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
 
 If a later step returns "Insufficient scope", the MCP connection needs `checkout:read` and `checkout:write` scopes. Recommend Option A (OAuth) in [references/mcp-setup.md](references/mcp-setup.md). If using Option B, tell the developer to mint a token with those scopes at https://managed.payments.ai/developer-tools and configure it in their local MCP client only — never paste the token into chat.
 

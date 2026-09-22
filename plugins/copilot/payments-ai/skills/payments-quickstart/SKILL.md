@@ -24,9 +24,9 @@ Gated wizard: complete each step and wait for the developer's input before the n
 
 ## Step 0 — MCP health
 
-Call `payments_ai_health`.
+Call `get_my_merchant`. It takes no arguments and doubles as a liveness and authorization check.
 
-Complete when the tool returns successfully. If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
+Complete when the tool returns successfully (an empty result is normal — it just means no merchant exists yet). If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
 
 ## Step 1 — Merchant info
 
