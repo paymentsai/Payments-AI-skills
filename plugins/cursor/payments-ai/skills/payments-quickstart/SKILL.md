@@ -81,19 +81,32 @@ Plan ID:     {planIds[0]}
 
 If there are multiple plans, list every plan ID with its index (Plan 1, Plan 2, …). Complete when every returned product ID and plan ID has been presented.
 
-## Step 4 — Sandbox checkout link
+## Step 4 — Checkout link
 
-MCP creates products on **sandbox**. Say:
+`create_product` already returned the link. Read `checkoutUrl` from its response and
+use it exactly as returned — never assemble one from the plan ID.
 
-> Your product is ready. Here is your **sandbox** checkout link for testing:
+The returned URL is already correct for where the merchant actually is: it carries
+`?isSandbox=true` until `go_live` succeeds and drops it afterwards, so there is
+nothing for you to switch. A hand-assembled link can only be right by coincidence —
+pointing at the live path before go-live resolves to `404 Plan not found`.
+
+Say:
+
+> Your product is ready. Here is your checkout link:
 >
-> `https://managed.payments.ai/payment/{planIds[0]}?isSandbox=true`
+> `{checkoutUrl}`
 >
 > Paste this link anywhere — your site, a landing page, an email, or a Notion page.
->
-> After you go live and the plan exists on production, use `https://managed.payments.ai/payment/{planIds[0]}`.
 
-If there are multiple plans, output one sandbox URL per plan ID. Complete when every plan has a sandbox URL (`?isSandbox=true`) on screen. Share the live URL (no query param) only after `go_live` and the plan exists on live.
+While the merchant is still on sandbox the link ends in `?isSandbox=true`, which is
+the test checkout — real cards are not charged. It becomes the live link on its own
+once `go_live` succeeds; re-read it from `list_products` after that rather than
+editing the one you already showed.
+
+If there are multiple plans, `planCheckoutUrls` holds one `{planId, checkoutUrl}`
+entry per plan — output each `checkoutUrl` verbatim. Complete when every plan has a
+returned URL on screen.
 
 ## Done
 
