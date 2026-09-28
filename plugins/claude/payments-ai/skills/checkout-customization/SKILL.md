@@ -97,4 +97,4 @@ Complete when every requested change is on screen (merged fields and/or logo).
 
 ## Done
 
-Complete when the summary names every field that changed. To preview, call `list_products` and open a plan's returned `checkoutUrl` — it already points at sandbox or live depending on where the merchant is, so there is no path to assemble and no query param to remember.
+Complete when the summary names every field that changed. To preview, call `list_products` and open a plan's returned `checkoutUrl` — it already points at sandbox or live depending on where the merchant is, so there is no path to assemble and no query param to remember. Note: checkout branding is stored per merchant and is not copied by `go_live` either — if the merchant has gone live and the live checkout does not show the branding you set on sandbox, re-run Step 4 (`update_checkout_customization` / `set_checkout_logo`) against the live merchant.
