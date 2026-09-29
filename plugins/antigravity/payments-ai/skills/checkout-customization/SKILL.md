@@ -97,4 +97,4 @@ Complete when every requested change is on screen (merged fields and/or logo).
 
 ## Done
 
-Complete when the summary names every field that changed. To preview, call `list_products` and open a plan's returned `checkoutUrl` — it already points at sandbox or live depending on where the merchant is, so there is no path to assemble and no query param to remember.
+Complete when the summary names every field that changed. To preview, call `list_products` and open a plan's returned `checkoutUrl` — it already points at sandbox or live depending on where the merchant is, so there is no path to assemble and no query param to remember. Note: `go_live` does not copy checkout branding either. If the merchant has gone live and the live checkout lacks the branding set on sandbox, call `update_checkout_customization` again with the same `merchantId`; after go-live it writes to live. `set_checkout_logo` still writes to sandbox only, so the live logo cannot be set over MCP yet — send the developer to the dashboard checkout builder (https://managed.payments.ai/checkout-builder) with Live selected.
