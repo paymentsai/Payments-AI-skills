@@ -84,15 +84,8 @@ If there are multiple plans, list every plan ID with its index (Plan 1, Plan 2, 
 ## Step 4 — Checkout link
 
 `create_product` already returned the link. Read `checkoutUrl` from its response and
-use it exactly as returned — never assemble one from the plan ID.
-
-The returned URL is already correct for where the merchant actually is today: it
-carries `?isSandbox=true` until `go_live` succeeds. But `go_live` does not create
-anything on live by itself — it only promotes routing. The live side starts with an
-empty catalog: after go_live, call `create_product` again for this same offer, and
-use the NEW `checkoutUrl` that call returns. A hand-assembled link can only be right
-by coincidence — pointing at the live path before that resolves to
-`404 Plan not found`.
+use it exactly as returned — never assemble one from the plan ID. A hand-assembled
+link can only be right by coincidence.
 
 Say:
 
@@ -103,10 +96,11 @@ Say:
 > Paste this link anywhere — your site, a landing page, an email, or a Notion page.
 
 While the merchant is still on sandbox the link ends in `?isSandbox=true`, which is
-the test checkout — real cards are not charged. The sandbox link you already showed
-stays sandbox-only forever and never becomes a live link, so do not wait for it to
-change or re-share it after go-live — re-run this step's `create_product` call for
-the live merchant and share the new `checkoutUrl` it returns instead.
+the test checkout — real cards are not charged. `go_live` copies nothing: the live
+catalog starts empty, and the sandbox link you already showed never becomes a live
+link. After go-live, call `create_product` again with the same `merchantId` and plan
+details; it creates the plan on live and returns a `checkoutUrl` without
+`?isSandbox=true`. Share that new link, not the one you already showed.
 
 If there are multiple plans, `planCheckoutUrls` holds one `{planId, checkoutUrl}`
 entry per plan — output each `checkoutUrl` verbatim. Complete when every plan has a
@@ -114,4 +108,4 @@ returned URL on screen.
 
 ## Done
 
-Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, webhooks, or checkout branding via `/checkout-customization`). Note: if the merchant later goes live, tell them their catalog (and any checkout branding) must be re-created there — nothing carries over automatically from sandbox.
+Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, webhooks, or checkout branding via `/checkout-customization`). Note: if the merchant later goes live, tell them nothing carries over from sandbox — re-create the catalog with `create_product` (same `merchantId`) and re-apply branding. The checkout logo cannot be set on live over MCP yet; they upload it in the dashboard checkout builder (https://managed.payments.ai/checkout-builder) with Live selected.
