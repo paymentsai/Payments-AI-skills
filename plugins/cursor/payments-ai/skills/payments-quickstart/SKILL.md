@@ -104,10 +104,10 @@ the test checkout — real cards are not charged. It becomes the live link on it
 once `go_live` succeeds; re-read it from `list_products` after that rather than
 editing the one you already showed.
 
-If there are multiple plans, `planCheckoutUrls` holds one `{planId, checkoutUrl}`
-entry per plan — output each `checkoutUrl` verbatim. Complete when every plan has a
-returned URL on screen.
+If there are multiple plans and each plan is sold on its own link, `planCheckoutUrls` holds one `{planId, checkoutUrl}` entry per plan — output each `checkoutUrl` verbatim. Complete when every plan has a returned URL on screen.
+
+When the buyer pays for several items in one checkout, or the caller sets the price, follow `order-checkout`.
 
 ## Done
 
-Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, webhooks, or checkout branding via `/checkout-customization`).
+Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, several items or a caller-set price via `/order-checkout`, webhooks, or checkout branding via `/checkout-customization`).

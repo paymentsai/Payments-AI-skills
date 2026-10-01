@@ -17,7 +17,7 @@ MCP server work for Antigravity, Gemini CLI, and Copilot (OAuth and transport qu
 
 - Host-specific plugin manifest
 - Bundled Payments AI MCP server pointing at `https://managed.payments.ai/api/mcp`
-- A copy of `skills/` (quickstart + checkout customization)
+- A copy of `skills/` (quickstart, order checkout, and checkout customization)
 - Logo for Cursor and Codex (`assets/logo.svg`)
 
 Canonical MCP URL: `shared/mcp.json`. After editing skills, MCP, or the logo, run:

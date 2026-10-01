@@ -19,6 +19,7 @@
   ],
   "skills": [
     "./skills/payments-quickstart",
+    "./skills/order-checkout",
     "./skills/checkout-customization"
   ]
 }
