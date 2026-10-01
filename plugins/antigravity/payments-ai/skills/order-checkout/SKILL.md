@@ -52,9 +52,9 @@ A **caller-priced** item is `{ label, unitPrice, quantity, type }`. You set `uni
 
 The two shapes stay separate. A mix of `planId` with `label` or `unitPrice` on one item is rejected.
 
-One billing schedule per order. A different cart is a new order. The call accepts `merchantId`, `currency`, `items`, and an optional `idempotencyKey` (1–255 characters). A promo code is rejected. The same `idempotencyKey` returns the same `orderId`; omit it to create a new order. Pass it only when they want to reuse an order.
+One billing schedule per order: every recurring item shares the same `billingPeriod` and `periodLength`. Read a catalogue plan's schedule from `list_products` before combining it with another recurring item. A different cart is a new order. The call accepts `merchantId`, `currency`, `items`, and an optional `idempotencyKey` (1–255 characters). A promo code is rejected. The same `idempotencyKey` returns the same `orderId`; omit it to create a new order. Pass it only when they want to reuse an order.
 
-Complete when `currency` is 3 letters and every item is catalogue (`planId`, `quantity`) or caller-priced (`label`, `unitPrice`, `quantity`, `type`, plus `billingPeriod` and `periodLength` when `type` is `recurring`).
+Complete when `currency` is 3 letters, every item is catalogue (`planId`, `quantity`) or caller-priced (`label`, `unitPrice`, `quantity`, `type`, plus `billingPeriod` and `periodLength` when `type` is `recurring`), and every recurring item shares that one schedule.
 
 ## Step 3 — Create the order
 
@@ -69,7 +69,7 @@ Order ID:      {orderId}
 Checkout URL:  {checkoutUrl}
 ```
 
-Use `orderId` and `checkoutUrl` verbatim. Send the buyer to `checkoutUrl`. That hosted page shows the items and takes payment. While the merchant is on sandbox the link ends in `?isSandbox=true`. `go_live` copies nothing: that sandbox link never becomes a live link. After go-live, call `create_order` again with the same `merchantId` and items; share the new `checkoutUrl`, which has no `?isSandbox=true`. An assembled URL 404s. Tax is one line added on top of the pre-tax amount, and it first appears on the receipt.
+Use `orderId` and `checkoutUrl` verbatim. Send the buyer to `checkoutUrl`. That hosted page shows the items and takes payment. While the merchant is on sandbox the link ends in `?isSandbox=true`. `go_live` copies nothing: that sandbox link never becomes a live link. After go-live, recreate each catalogue plan with `create_product` (same `merchantId`) and call `create_order` with those new live `planId`s. Caller-priced items can be sent again unchanged. Share the new `checkoutUrl`, which has no `?isSandbox=true`. An assembled URL 404s. Tax is one line added on top of the pre-tax amount, and it first appears on the receipt.
 
 Say:
 
