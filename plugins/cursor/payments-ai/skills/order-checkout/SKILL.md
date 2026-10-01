@@ -69,7 +69,7 @@ Order ID:      {orderId}
 Checkout URL:  {checkoutUrl}
 ```
 
-Use `orderId` and `checkoutUrl` verbatim. Send the buyer to `checkoutUrl`. That hosted page shows the items and takes payment. The URL carries `?isSandbox=true` until `go_live` and drops it after. An assembled URL 404s before go-live. Tax is one line added on top of the pre-tax amount, and it first appears on the receipt.
+Use `orderId` and `checkoutUrl` verbatim. Send the buyer to `checkoutUrl`. That hosted page shows the items and takes payment. While the merchant is on sandbox the link ends in `?isSandbox=true`. `go_live` copies nothing: that sandbox link never becomes a live link. After go-live, call `create_order` again with the same `merchantId` and items; share the new `checkoutUrl`, which has no `?isSandbox=true`. An assembled URL 404s. Tax is one line added on top of the pre-tax amount, and it first appears on the receipt.
 
 Say:
 
