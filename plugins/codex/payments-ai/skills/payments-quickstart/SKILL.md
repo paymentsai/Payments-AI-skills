@@ -102,10 +102,10 @@ link. After go-live, call `create_product` again with the same `merchantId` and 
 details; it creates the plan on live and returns a `checkoutUrl` without
 `?isSandbox=true`. Share that new link, not the one you already showed.
 
-If there are multiple plans, `planCheckoutUrls` holds one `{planId, checkoutUrl}`
-entry per plan — output each `checkoutUrl` verbatim. Complete when every plan has a
-returned URL on screen.
+If there are multiple plans and each plan is sold on its own link, `planCheckoutUrls` holds one `{planId, checkoutUrl}` entry per plan — output each `checkoutUrl` verbatim. Complete when every plan has a returned URL on screen.
+
+When the buyer pays for several items in one checkout, or the caller sets the price, follow `order-checkout`.
 
 ## Done
 
-Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, webhooks, or checkout branding via `/checkout-customization`). Note: if the merchant later goes live, tell them nothing carries over from sandbox — re-create the catalog with `create_product` (same `merchantId`) and re-apply branding. The checkout logo cannot be set on live over MCP yet; they upload it in the dashboard checkout builder (https://managed.payments.ai/checkout-builder) with Live selected.
+Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, several items or a caller-set price via `/order-checkout`, webhooks, or checkout branding via `/checkout-customization`). Note: if the merchant later goes live, tell them nothing carries over from sandbox — re-create the catalog with `create_product` (same `merchantId`) and re-apply branding. The checkout logo cannot be set on live over MCP yet; they upload it in the dashboard checkout builder (https://managed.payments.ai/checkout-builder) with Live selected.

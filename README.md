@@ -113,6 +113,7 @@ This package is the portable [Agent Plugins](https://agent-plugins.org/) layout.
 | Skill | What it does |
 | --- | --- |
 | `payments-quickstart` | Merchant account → first product → sandbox checkout |
+| `order-checkout` | Several items, or a caller-priced amount, in one checkout |
 | `checkout-customization` | Hosted checkout theme, colors, font, input style, and logo |
 
 ## License

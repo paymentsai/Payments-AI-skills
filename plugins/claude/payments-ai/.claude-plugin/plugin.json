@@ -2,7 +2,7 @@
   "name": "payments-ai",
   "displayName": "Payments AI",
   "version": "1.0.0",
-  "description": "Guided Payments AI skills (quickstart, checkout customization) plus the bundled MCP server.",
+  "description": "Guided Payments AI skills (quickstart, order checkout, checkout customization) plus the bundled MCP server.",
   "author": {
     "name": "Payments AI",
     "email": "support@payments.ai",
@@ -19,6 +19,7 @@
   ],
   "skills": [
     "./skills/payments-quickstart",
+    "./skills/order-checkout",
     "./skills/checkout-customization"
   ]
 }
