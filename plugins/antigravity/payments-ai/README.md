@@ -15,6 +15,6 @@ agy plugin install ./plugins/antigravity/payments-ai
 agy plugin list
 ```
 
-Restart Antigravity if skills or MCP tools are not visible. The first MCP tool call opens OAuth for [Payments AI](https://payments.ai/).
+Restart Antigravity if skills or MCP tools are not visible. On the first MCP tool call your client opens a browser or prints a sign-in URL for [Payments AI](https://payments.ai/).
 
 MCP uses `mcp_config.json` with `serverUrl` (not `url`). See [Antigravity plugins](https://www.antigravity.google/docs/cli/plugins/).

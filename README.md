@@ -13,7 +13,7 @@ After either path, ask:
 Help me get started with Payments AI.
 ```
 
-The first MCP tool call opens a browser to connect your Payments AI account.
+On the first MCP tool call your client opens a browser or prints a sign-in URL to connect your Payments AI account; in Claude Code run `/mcp` → Authenticate, or `claude mcp login payments-ai` (add `--no-browser` over SSH).
 
 ## Install skills
 

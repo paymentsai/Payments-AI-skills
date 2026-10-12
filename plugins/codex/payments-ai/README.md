@@ -8,4 +8,4 @@ codex plugin marketplace add paymentsai/Payments-AI-skills \
   --sparse plugins/codex/payments-ai
 ```
 
-Restart Codex and install **Payments AI** from the plugin directory. The first MCP tool call opens the OAuth browser flow for [Payments AI](https://payments.ai/).
+Restart Codex and install **Payments AI** from the plugin directory. On the first MCP tool call your client opens a browser or prints a sign-in URL for [Payments AI](https://payments.ai/).

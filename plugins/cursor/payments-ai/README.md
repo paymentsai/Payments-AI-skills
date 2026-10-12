@@ -15,4 +15,4 @@ ln -sfn "$(pwd)/plugins/cursor/payments-ai" ~/.cursor/plugins/local/payments-ai
 
 Reload the Cursor window, then confirm **Payments AI** skills and the `payments-ai` MCP server in Customize.
 
-The first MCP tool call opens the OAuth browser flow for [Payments AI](https://payments.ai/).
+On the first MCP tool call your client opens a browser or prints a sign-in URL for [Payments AI](https://payments.ai/).

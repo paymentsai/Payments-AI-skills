@@ -6,7 +6,7 @@ Antigravity uses `serverUrl` in `mcp_config.json`. Gemini CLI uses `httpUrl` in 
 
 Choose **one** of the two authentication methods below.
 
-**Option A — OAuth (recommended).** No token to manage. Your client opens a browser to sign in and authorize, then returns automatically.
+**Option A — OAuth (recommended).** No token to manage. Your client opens a browser or prints a sign-in URL to sign in and authorize, then returns automatically; in Claude Code run `/mcp` → Authenticate, or `claude mcp login payments-ai` (add `--no-browser` over SSH).
 
 ```json
 {
@@ -18,7 +18,7 @@ Choose **one** of the two authentication methods below.
 }
 ```
 
-On first connect, approve the authorization in your browser. The client stores the token and refreshes it for you.
+On first connect, approve the authorization in the browser or at the printed sign-in URL. The client stores the token and refreshes it for you.
 
 **Option B — Bearer token.** Configure a long-lived token in your local MCP client only (never paste it into chat). Mint tokens at https://mor.payments.ai/developer-tools.
 

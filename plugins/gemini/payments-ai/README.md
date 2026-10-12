@@ -20,7 +20,7 @@ The self-contained host package is the same extension:
 gemini extensions install ./plugins/gemini/payments-ai
 ```
 
-Restart Gemini CLI after install. The first MCP tool call opens OAuth for [Payments AI](https://payments.ai/).
+Restart Gemini CLI after install. On the first MCP tool call your client opens a browser or prints a sign-in URL for [Payments AI](https://payments.ai/).
 
 Google is moving consumer Gemini CLI users to Antigravity CLI. Prefer `plugins/antigravity/payments-ai` when that is the host in use.
 
