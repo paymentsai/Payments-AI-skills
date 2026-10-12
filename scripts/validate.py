@@ -5,12 +5,14 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PLUGIN_NAME = re.compile(r"^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$")
 MARKETPLACE_NAME = re.compile(r"^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
+LEGACY_HOST = "managed." + "payments.ai"
 errors: list[str] = []
 
 
@@ -86,6 +88,16 @@ def payments_url(data: dict | None, key: str) -> str | None:
     server = (data.get("mcpServers") or {}).get("payments-ai") or {}
     value = server.get(key)
     return value if isinstance(value, str) and value else None
+
+
+def reject_legacy_host() -> None:
+    tracked = subprocess.run(
+        ["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, check=True
+    ).stdout.decode().split("\0")
+    for name in filter(None, tracked):
+        path = ROOT / name
+        if path.is_file() and LEGACY_HOST.encode() in path.read_bytes():
+            error(f"{name}: references legacy host {LEGACY_HOST}")
 
 
 def main() -> int:
@@ -226,6 +238,8 @@ def main() -> int:
     for host, path in packages.items():
         validate_skills(path / "skills", f"{host} package")
         trees_equal(canonical, path / "skills", f"{host} skills")
+
+    reject_legacy_host()
 
     if (ROOT / ".claude-plugin" / "plugin.json").exists():
         error("root .claude-plugin/plugin.json must be removed; Claude plugin lives under plugins/claude/payments-ai")
