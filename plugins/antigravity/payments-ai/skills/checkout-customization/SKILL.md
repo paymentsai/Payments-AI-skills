@@ -2,7 +2,7 @@
 name: checkout-customization
 description: Official Payments AI checkout branding — theme, colors, fonts, input style, and logo over MCP. Use when a developer wants to customize or brand their hosted checkout, change checkout colors or theme, or set the checkout logo.
 license: Apache-2.0
-compatibility: Requires the official Payments AI MCP server (https://doc.managed.payments.ai/mcp). Network access to managed.payments.ai over HTTPS.
+compatibility: Requires the official Payments AI MCP server (https://doc.mor.payments.ai/mcp). Network access to mor.payments.ai over HTTPS.
 metadata:
   author: paymentsai
   homepage: https://payments.ai
@@ -11,13 +11,13 @@ metadata:
 
 # Payments AI Checkout Customization
 
-Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/Payments-AI-skills. MCP documentation: https://doc.managed.payments.ai/mcp.
+Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/Payments-AI-skills. MCP documentation: https://doc.mor.payments.ai/mcp.
 
-Gated branding of the hosted checkout at `https://managed.payments.ai/payment/{planId}`: complete each step and wait for input before the next.
+Gated branding of the hosted checkout at `https://mor.payments.ai/payment/{planId}`: complete each step and wait for input before the next.
 
 ## Security and data handling
 
-- **First-party endpoint only.** Use the Payments AI MCP server at `https://managed.payments.ai/api/mcp`. Do not substitute other URLs or proxies.
+- **First-party endpoint only.** Use the Payments AI MCP server at `https://mor.payments.ai/api/mcp`. Do not substitute other URLs or proxies.
 - **OAuth preferred.** Recommend Option A in [references/mcp-setup.md](references/mcp-setup.md). The MCP client stores and refreshes tokens; never ask the developer to paste a bearer token into chat.
 - **Merchant ID only.** Collect the merchant ID at Step 1. Do not log or repeat credentials.
 
@@ -27,7 +27,7 @@ Call `get_my_merchant`. It takes no arguments and doubles as a liveness and auth
 
 Complete when the tool returns successfully (an empty result is normal — it just means no merchant exists yet). If the call fails or the tool is missing, read [references/mcp-setup.md](references/mcp-setup.md), paste that setup to the developer, and stop.
 
-If a later step returns "Insufficient scope", the MCP connection needs `checkout:read` and `checkout:write` scopes. Recommend Option A (OAuth) in [references/mcp-setup.md](references/mcp-setup.md). If using Option B, tell the developer to mint a token with those scopes at https://managed.payments.ai/developer-tools and configure it in their local MCP client only — never paste the token into chat.
+If a later step returns "Insufficient scope", the MCP connection needs `checkout:read` and `checkout:write` scopes. Recommend Option A (OAuth) in [references/mcp-setup.md](references/mcp-setup.md). If using Option B, tell the developer to mint a token with those scopes at https://mor.payments.ai/developer-tools and configure it in their local MCP client only — never paste the token into chat.
 
 ## Step 1 — Merchant ID
 
@@ -89,7 +89,7 @@ Checkout branding updated.
 {list each field and its new value}
 ```
 
-If they asked to **remove** or **reset** a field to default, clearing is done from the dashboard (https://managed.payments.ai/developer-tools) — not over MCP.
+If they asked to **remove** or **reset** a field to default, clearing is done from the dashboard (https://mor.payments.ai/developer-tools) — not over MCP.
 
 If they asked for a logo, follow [references/set-logo.md](references/set-logo.md).
 
@@ -97,4 +97,4 @@ Complete when every requested change is on screen (merged fields and/or logo).
 
 ## Done
 
-Complete when the summary names every field that changed. To preview, call `list_products` and open a plan's returned `checkoutUrl` — it already points at sandbox or live depending on where the merchant is, so there is no path to assemble and no query param to remember. Note: `go_live` does not copy checkout branding either. If the merchant has gone live and the live checkout lacks the branding set on sandbox, call `update_checkout_customization` again with the same `merchantId`; after go-live it writes to live. `set_checkout_logo` still writes to sandbox only, so the live logo cannot be set over MCP yet — send the developer to the dashboard checkout builder (https://managed.payments.ai/checkout-builder) with Live selected.
+Complete when the summary names every field that changed. To preview, call `list_products` and open a plan's returned `checkoutUrl` — it already points at sandbox or live depending on where the merchant is, so there is no path to assemble and no query param to remember. Note: `go_live` does not copy checkout branding either. If the merchant has gone live and the live checkout lacks the branding set on sandbox, call `update_checkout_customization` again with the same `merchantId`; after go-live it writes to live. `set_checkout_logo` still writes to sandbox only, so the live logo cannot be set over MCP yet — send the developer to the dashboard checkout builder (https://mor.payments.ai/checkout-builder) with Live selected.

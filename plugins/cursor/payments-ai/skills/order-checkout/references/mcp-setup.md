@@ -12,7 +12,7 @@ Choose **one** of the two authentication methods below.
 {
   "mcpServers": {
     "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp"
+      "url": "https://mor.payments.ai/api/mcp"
     }
   }
 }
@@ -20,13 +20,13 @@ Choose **one** of the two authentication methods below.
 
 On first connect, approve the authorization in your browser. The client stores the token and refreshes it for you.
 
-**Option B — Bearer token.** Configure a long-lived token in your local MCP client only (never paste it into chat). Mint tokens at https://managed.payments.ai/developer-tools.
+**Option B — Bearer token.** Configure a long-lived token in your local MCP client only (never paste it into chat). Mint tokens at https://mor.payments.ai/developer-tools.
 
 ```json
 {
   "mcpServers": {
     "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp",
+      "url": "https://mor.payments.ai/api/mcp",
       "headers": {
         "Authorization": "Bearer YOUR_TOKEN"
       }

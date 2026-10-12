@@ -5,7 +5,7 @@
   "contextFileName": "GEMINI.md",
   "mcpServers": {
     "payments-ai": {
-      "httpUrl": "https://managed.payments.ai/api/mcp"
+      "httpUrl": "https://mor.payments.ai/api/mcp"
     }
   }
 }

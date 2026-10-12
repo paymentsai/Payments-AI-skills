@@ -2,7 +2,7 @@
 name: payments-quickstart
 description: Official Payments AI onboarding — merchant account, product, and sandbox checkout via MCP. Use when a developer wants to get started with Payments AI, integrate payments, create a merchant account, or build their first checkout link.
 license: Apache-2.0
-compatibility: Requires the official Payments AI MCP server (https://doc.managed.payments.ai/mcp). Network access to managed.payments.ai over HTTPS.
+compatibility: Requires the official Payments AI MCP server (https://doc.mor.payments.ai/mcp). Network access to mor.payments.ai over HTTPS.
 metadata:
   author: paymentsai
   homepage: https://payments.ai
@@ -11,13 +11,13 @@ metadata:
 
 # Payments AI Quickstart
 
-Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/Payments-AI-skills. MCP documentation: https://doc.managed.payments.ai/mcp.
+Official first-party skill from [Payments AI](https://payments.ai). Source repository: https://github.com/paymentsai/Payments-AI-skills. MCP documentation: https://doc.mor.payments.ai/mcp.
 
 Gated wizard: complete each step and wait for the developer's input before the next.
 
 ## Security and data handling
 
-- **First-party endpoint only.** Use the Payments AI MCP server at `https://managed.payments.ai/api/mcp`. Do not substitute other URLs or proxies.
+- **First-party endpoint only.** Use the Payments AI MCP server at `https://mor.payments.ai/api/mcp`. Do not substitute other URLs or proxies.
 - **OAuth preferred.** Recommend Option A in [references/mcp-setup.md](references/mcp-setup.md). The MCP client stores and refreshes tokens; never ask the developer to paste a bearer token into chat.
 - **PII with consent.** Collect business name, email, and phone only at Step 1 after the developer provides them. Pass those fields only to `create_merchant_account`. Do not log or repeat credentials.
 - **Sandbox by default.** `create_product` creates sandbox resources. Share checkout links with `?isSandbox=true` until the merchant has gone live on production.
@@ -108,4 +108,4 @@ When the buyer pays for several items in one checkout, or the caller sets the pr
 
 ## Done
 
-Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, several items or a caller-set price via `/order-checkout`, webhooks, or checkout branding via `/checkout-customization`). Note: if the merchant later goes live, tell them nothing carries over from sandbox — re-create the catalog with `create_product` (same `merchantId`) and re-apply branding. The checkout logo cannot be set on live over MCP yet; they upload it in the dashboard checkout builder (https://managed.payments.ai/checkout-builder) with Live selected.
+Complete when the summary names the merchant ID, product ID, every plan ID, and the sandbox vs live URL distinction. Offer next steps (more products, several items or a caller-set price via `/order-checkout`, webhooks, or checkout branding via `/checkout-customization`). Note: if the merchant later goes live, tell them nothing carries over from sandbox — re-create the catalog with `create_product` (same `merchantId`) and re-apply branding. The checkout logo cannot be set on live over MCP yet; they upload it in the dashboard checkout builder (https://mor.payments.ai/checkout-builder) with Live selected.
