@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp"
+      "url": "https://mor.payments.ai/api/mcp"
     }
   }
 }

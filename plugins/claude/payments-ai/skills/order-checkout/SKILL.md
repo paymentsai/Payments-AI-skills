@@ -2,7 +2,7 @@
 name: order-checkout
 description: Order checkout with create_order. Use when the buyer pays for several items in one checkout, the caller sets the price, or the buyer pays on the order's hosted checkout link.
 license: Apache-2.0
-compatibility: Requires the official Payments AI MCP server (https://doc.managed.payments.ai/mcp). Network access to managed.payments.ai over HTTPS.
+compatibility: Requires the official Payments AI MCP server (https://doc.mor.payments.ai/mcp). Network access to mor.payments.ai over HTTPS.
 metadata:
   author: paymentsai
   homepage: https://payments.ai
@@ -15,9 +15,9 @@ Finish each step before the next. One catalogue plan stays on `payments-quicksta
 
 ## Security and data handling
 
-- **First-party endpoint only.** Use the Payments AI MCP server at `https://managed.payments.ai/api/mcp`.
+- **First-party endpoint only.** Use the Payments AI MCP server at `https://mor.payments.ai/api/mcp`.
 - **OAuth preferred.** Recommend Option A in [references/mcp-setup.md](references/mcp-setup.md). The MCP client stores and refreshes tokens. A bearer token stays in the local MCP client, never in chat.
-- **`checkout:write`.** `create_order` requires it. On "Insufficient scope", recommend Option A in [references/mcp-setup.md](references/mcp-setup.md). For Option B, the developer mints a token with that scope at https://managed.payments.ai/developer-tools and configures it locally.
+- **`checkout:write`.** `create_order` requires it. On "Insufficient scope", recommend Option A in [references/mcp-setup.md](references/mcp-setup.md). For Option B, the developer mints a token with that scope at https://mor.payments.ai/developer-tools and configures it locally.
 - **Hosted checkout.** `create_order` runs from this agent or the merchant's server. The buyer pays on the returned `checkoutUrl`.
 
 ## Step 0 — MCP health

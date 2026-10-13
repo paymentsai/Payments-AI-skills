@@ -13,7 +13,7 @@ After either path, ask:
 Help me get started with Payments AI.
 ```
 
-The first MCP tool call opens a browser to connect your Payments AI account.
+On the first MCP tool call your client opens a browser or prints a sign-in URL to connect your Payments AI account; in Claude Code run `/mcp` → Authenticate, or `claude mcp login payments-ai` (add `--no-browser` over SSH).
 
 ## Install skills
 
@@ -21,13 +21,13 @@ The first MCP tool call opens a browser to connect your Payments AI account.
 npx skills add paymentsai/Payments-AI-skills
 ```
 
-That installs only what is in `skills/`. Point your client at the [Payments AI MCP server](https://doc.managed.payments.ai/mcp):
+That installs only what is in `skills/`. Point your client at the [Payments AI MCP server](https://doc.mor.payments.ai/mcp):
 
 ```json
 {
   "mcpServers": {
     "payments-ai": {
-      "url": "https://managed.payments.ai/api/mcp"
+      "url": "https://mor.payments.ai/api/mcp"
     }
   }
 }
